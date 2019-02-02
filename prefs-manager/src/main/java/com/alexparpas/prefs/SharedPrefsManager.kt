@@ -99,7 +99,7 @@ object SharedPrefsManager : PrefsManager {
 
     private fun applyPreconditions() {
         require(initialised) {
-            app.getString(R.string.error_not_initialised)
+            "SharedPrefsManager not initialised. Make sure you call PrefsManager.init(Application, String) before any PrefsManager operations."
         }
     }
 }
