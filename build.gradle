@@ -24,10 +24,6 @@ allprojects {
     }
 }
 
-dependencies {
-    implementation 'com.github.AlexParpas:prefs-manager-sdk-android:master-SNAPSHOT'
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
