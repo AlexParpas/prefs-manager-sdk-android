@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity() {
         PrefsManager.put(key = INT_KEY, value = 1) //Put Int in default prefs bucket
         PrefsManager.put(key = STRING_KEY, value = "Hello world") //Put String in default prefs bucket
         PrefsManager.put(key = STRING_KEY, value = "Hello world", fileName = "prefs-sample-bespoke") //Put string in bespoke prefs bucket
-        PrefsManager.put(key = POJO_KEY, value = POJOSample("123", "Name")) //Put POJO
+        PrefsManager.put(key = OBJECT_KEY, value = ObjectSample("123", "Name")) //Put POJO
 
         PrefsManager.getString(STRING_KEY) //Get String
         PrefsManager.getInt(INT_KEY) //Get Int
-        PrefsManager.getPOJO<POJOSample>(key = POJO_KEY) //Get POJO
+        PrefsManager.getObject<ObjectSample>(key = OBJECT_KEY) //Get object
 
         PrefsManager.remove(INT_KEY) //Remove Int value
 
@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val INT_KEY = "int_key"
         const val STRING_KEY = "string_key"
-        const val POJO_KEY = "pojo_key"
+        const val OBJECT_KEY = "pojo_key"
     }
 }
 
-data class POJOSample(val id: String, val name: String)
+data class ObjectSample(val id: String, val name: String)

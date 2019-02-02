@@ -3,6 +3,7 @@ package com.alexparpas.prefs
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.support.v4.util.Preconditions
 import com.google.gson.Gson
 
@@ -16,10 +17,6 @@ object PrefsManager {
         this.defaultFileName = defaultFileName
         initialised = true
     }
-
-    fun getPrefsEditor(fileName: String = defaultFileName) = getPrefs(fileName).edit()
-
-    fun getPrefs(fileName: String = defaultFileName) = app.getSharedPreferences(fileName, Context.MODE_PRIVATE)
 
     fun getString(key: String, defaultValue: String? = null, fileName: String = defaultFileName): String? {
         return getPrefs(fileName).getString(key, defaultValue)
@@ -45,9 +42,14 @@ object PrefsManager {
         return getPrefs(fileName).getBoolean(key, defaultValue)
     }
 
-    inline fun <reified T> getPOJO(key: String, defaultValue: T? = null, fileName: String = defaultFileName): T {
-        val rawValue = getPrefs(fileName).getString(key, defaultFileName)
-        return Gson().fromJson<T>(rawValue, T::class.java)
+    inline fun <reified T> getObject(key: String, defaultValue: T? = null, fileName: String = defaultFileName): T? {
+        val rawValue = getPrefs(fileName).getString(key, null)
+
+        return if (rawValue != null) {
+            Gson().fromJson<T>(rawValue, T::class.java)
+        } else {
+            defaultValue
+        }
     }
 
     fun put(key: String, value: String, fileName: String = defaultFileName) {
@@ -74,7 +76,7 @@ object PrefsManager {
         getPrefsEditor(fileName).putBoolean(key, value).apply()
     }
 
-    fun <T> put(key: String, value : T, fileName: String = defaultFileName) {
+    fun <T> put(key: String, value: T, fileName: String = defaultFileName) {
         val rawValue = Gson().toJson(value)
         getPrefsEditor(fileName).putString(key, rawValue).apply()
     }
@@ -85,6 +87,16 @@ object PrefsManager {
 
     fun clear(fileName: String = defaultFileName) {
         getPrefsEditor(fileName).clear()
+    }
+
+    fun getPrefsEditor(fileName: String = defaultFileName): SharedPreferences.Editor {
+        applyPreconditions()
+        return getPrefs(fileName).edit()
+    }
+
+    fun getPrefs(fileName: String = defaultFileName): SharedPreferences {
+        applyPreconditions()
+        return app.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     }
 
     @SuppressLint("RestrictedApi") //TODO Investigate
