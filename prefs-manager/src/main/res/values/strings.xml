@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">prefs-manager</string>
+    <string name="error_not_initialised">SharedPrefsManager not initialised. Make sure you call SharedPrefsManager.init(Application, String) before any PrefsManager operations.</string>
 </resources>

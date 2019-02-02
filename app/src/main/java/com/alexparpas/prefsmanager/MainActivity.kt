@@ -2,7 +2,7 @@ package com.alexparpas.prefsmanager
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.alexparpas.prefs.PrefsManager
+import com.alexparpas.prefs.SharedPrefsManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,20 +10,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        PrefsManager.init(app = application, defaultFileName = "prefs-sample")
+        SharedPrefsManager.init(app = application, defaultFileName = "prefs-sample")
 
-        PrefsManager.put(key = INT_KEY, value = 1) //Put Int in default prefs bucket
-        PrefsManager.put(key = STRING_KEY, value = "Hello world") //Put String in default prefs bucket
-        PrefsManager.put(key = STRING_KEY, value = "Hello world", fileName = "prefs-sample-bespoke") //Put string in bespoke prefs bucket
-        PrefsManager.put(key = OBJECT_KEY, value = ObjectSample("123", "Name")) //Put POJO
+        SharedPrefsManager.put(key = INT_KEY, value = 1) //Put Int in default prefs bucket
+        SharedPrefsManager.put(key = STRING_KEY, value = "Hello world") //Put String in default prefs bucket
+        SharedPrefsManager.put(key = STRING_KEY, value = "Hello world", fileName = "prefs-sample-bespoke") //Put string in bespoke prefs bucket
+        SharedPrefsManager.put(key = OBJECT_KEY, value = ObjectSample("123", "Name")) //Put POJO
 
-        PrefsManager.getString(STRING_KEY) //Get String
-        PrefsManager.getInt(INT_KEY) //Get Int
-        PrefsManager.getObject<ObjectSample>(key = OBJECT_KEY) //Get object
+        SharedPrefsManager.getString(STRING_KEY) //Get String
+        SharedPrefsManager.getInt(INT_KEY) //Get Int
+        SharedPrefsManager.getObject(key = OBJECT_KEY, clazz = ObjectSample::class.java) //Get object
 
-        PrefsManager.remove(INT_KEY) //Remove Int value
+        SharedPrefsManager.remove(INT_KEY) //Remove Int value
 
-        PrefsManager.clear() //Clear preferences
+        SharedPrefsManager.clear() //Clear preferences
 
     }
 
