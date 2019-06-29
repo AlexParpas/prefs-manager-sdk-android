@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 object SharedPrefsManager : PrefsManager {
     private lateinit var app: Application
@@ -45,6 +47,16 @@ object SharedPrefsManager : PrefsManager {
 
         return if (rawValue != null) {
             Gson().fromJson<T>(rawValue, clazz)
+        } else {
+            defaultValue
+        }
+    }
+
+    override fun <T> getObjectType(key: String, defaultValue: T?, fileName: String): T? {
+        val rawValue = getPrefs(fileName).getString(key, null)
+
+        return if (rawValue != null) {
+            Gson().fromJson<T>(rawValue, object : TypeToken<T>() {}.type)
         } else {
             defaultValue
         }

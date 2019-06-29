@@ -2,6 +2,7 @@ package com.alexparpas.prefs
 
 import android.app.Application
 import android.content.SharedPreferences
+import java.lang.reflect.Type
 
 interface PrefsManager {
     var defaultFileName: String
@@ -21,6 +22,12 @@ interface PrefsManager {
     fun getBoolean(key: String, defaultValue: Boolean = false, fileName: String = defaultFileName): Boolean?
 
     fun <T> getObject(key: String, clazz: Class<T>, defaultValue: T? = null, fileName: String = defaultFileName): T?
+
+    /**
+     * Get raw types, parameterized types,
+     * array types, type variables and primitive types.
+     */
+    fun <T> getObjectType(key: String, defaultValue: T? = null, fileName: String = defaultFileName): T?
 
     fun put(key: String, value: String, fileName: String = defaultFileName)
 
